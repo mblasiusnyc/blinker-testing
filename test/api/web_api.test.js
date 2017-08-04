@@ -44,9 +44,14 @@ describe('Listings API', function() {
 				.get(createListingsUrl(testCase))
 	      .expect(200)
 	      .expect('Content-Type', 'application/json; charset=utf-8')
+	      .expect((res) => {
+	      	console.log(testCase)
+	      	// res.body.results.forEach((result, i) {
+
+	      	// })
+	      })
 	      .end(function(err, res) {
 	        if (err) return done(err);
-	        console.log('got here')
 	        done();
 	      });
 		});
