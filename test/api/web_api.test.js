@@ -41,7 +41,7 @@ describe('Listings API', function() {
       .expect('Content-Type', 'application/json; charset=utf-8')
       .end(function(err, res) {
         if (err) return done(err);
-        console.log(res.body)
+        console.log(res.body.facets)
         done();
       });
 	});
