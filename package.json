@@ -1,0 +1,14 @@
+{
+  "name": "blinker",
+  "version": "1.0.0",
+  "description": "Test Suite for Blinker apps (all platforms)",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "test"
+  },
+  "author": "",
+  "license": "ISC"
+}
