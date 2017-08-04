@@ -7,8 +7,15 @@
     "test": "test"
   },
   "scripts": {
-    "test": "test"
+    "test-api": "mocha ./test/api/web_api.test.js"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "chai": "^4.1.0",
+    "chai-http": "^3.0.0",
+    "mocha": "^3.5.0",
+    "superagent": "^3.5.2",
+    "supertest": "^3.0.0"
+  }
 }
