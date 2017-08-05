@@ -12,10 +12,12 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "appium": "^1.6.5",
     "chai": "^4.1.0",
     "chai-http": "^3.0.0",
     "mocha": "^3.5.0",
     "superagent": "^3.5.2",
-    "supertest": "^3.0.0"
+    "supertest": "^3.0.0",
+    "wd": "^1.4.0"
   }
 }
