@@ -6,7 +6,7 @@ chai.should();
 const assert = chai.assert;
 
 const generateTestCases = require('./test_cases').generateTestCases;
-const defaultCases = 100; //this many cases will be run
+const defaultCases = 20; //this many cases will be run
 
 const baseUrl = 'https://api.blinker.com/api/v3';
 
@@ -34,6 +34,7 @@ function createListingsUrl(testCase) {
 	for(let [key, value] of entries(reqFilters)) {
 	  url += `&filter%5B%5D=${value}`;
 	}
+	// console.log(url)
 	return url;
 }
 
@@ -60,6 +61,7 @@ const validationFuncs = {
 describe('Listings API', function() {
 
 	generateTestCases(defaultCases).forEach((testCase, i) => {
+		this.timeout(5000); // increase default timeout length
 		it(`should filter #${i+1}`, function(done) {
 			request(baseUrl)
 				.get(createListingsUrl(testCase))
@@ -67,6 +69,8 @@ describe('Listings API', function() {
 	      .expect('Content-Type', 'application/json; charset=utf-8')
 	      .end(function(err, res) {
 	        if (err) return done(err);
+	        console.log(testCase);
+	        assert.isBelow(res.body.results.length, defaultSearchParams.per_page+1);
 	        for(let [searchParam, value] of entries(testCase.searches)) {
   	      	res.body.results.forEach((result, i) => {
   	      		assert.equal(validationFuncs[searchParam](value, result), true);
