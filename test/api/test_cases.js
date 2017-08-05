@@ -1,6 +1,7 @@
 const filters = {
 	color: ['beige','black','blue','brown','burgundy','charcoal','gold','gray','green','off White','orange','purple','red','silver','tan','turquoise','white','yellow'],
-	make: ['acura','alfaromeo','audi','bmw','buick','cadillac','chevrolet','chrysler','dodge','fiat','ford','gmc','honda','hummer','hyundai','infiniti','jaguar','jeep','kia','landrover','lexus','lincoln','maserati','mazda','mercedes-benz','mercury','mini','mitsubishi','nissan','oldsmobile','pontiac','porsche','ram','saturn','scion','subaru','suzuki','tesla','toyota','volkswagen','volvo'],
+	// make: ['acura','alfaromeo','audi','bmw','buick','cadillac','chevrolet','chrysler','dodge','fiat','ford','gmc','honda','hummer','hyundai','infiniti','jaguar','jeep','kia','landrover','lexus','lincoln','maserati','mazda','mercedes-benz','mercury','mini','mitsubishi','nissan','oldsmobile','pontiac','porsche','ram','saturn','scion','subaru','suzuki','tesla','toyota','volkswagen','volvo'],
+	make: ['alfaromeo'],
 	style: ['2-door-mid-size-passenger-car','full-size-car','full-size-van','large-crossover-suv','large-luxury-crossover-suv','luxury-car','mid-size-car','minivan','pickup','small-car','small-crossover-suv','small-luxury-crossover-suv','sporty-car','two-seater-passenger-car']
 }
 
@@ -8,7 +9,10 @@ const filterMap = ['color', 'make', 'style'];
 
 function randomizeFilters() {
 	let testFilters = {};
-	const chosenFilters = [Math.random()<.5, Math.random()<.5, Math.random()<.5];
+	// TODO: add color and style to api results so the filtering can be tested on the front end
+	// filtering is apparently done on backend for now
+	// const chosenFilters = [Math.random()<.5, Math.random()<.5, Math.random()<.5];
+	const chosenFilters = [false, Math.random()<.5, false];
 	chosenFilters.forEach((filter, i) => {
 		if(filter) {
 			let filterValue = filters[filterMap[i]][Math.floor(Math.random()*filters[filterMap[i]].length)];
@@ -25,7 +29,8 @@ const distances = [25,50,75,100,200,300,500];
 
 searchFunctions = {
 	zipcode: () => '80202',
-	// These search functions should be replaced with API calls to determine the actual coords of a given zip code
+	// TODO: These search functions should be replaced with API calls to determine the actual
+	// coords of a given zip code
 	// latitude: () => '39.742043',
 	// longitude: () => '-104.991531',
 	// isZipcodeValid: () => true,
@@ -81,8 +86,7 @@ function generateTestCases(num) {
 	let testCases = [];
 	for(let i=0; i<num; i++) {
 		testCases.push({
-			// filters: randomizeFilters(),
-			filters: [],
+			filters: randomizeFilters(),
 			searches: randomizeSearches()
 		});
 	}
