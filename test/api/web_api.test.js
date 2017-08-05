@@ -20,16 +20,16 @@ function* entries(obj) {
 }
 
 function createListingsUrl(testCase) {
-	// let reqSearches = Object.assign(testCase.searches, defaultSearchParams);
+	let reqSearches = Object.assign(testCase.searches, defaultSearchParams);
 	let reqFilters = testCase.filters;
 	let url = `/listings/search?page=${defaultSearchParams.page}&per_page=${defaultSearchParams.per_page}`;
 
-	// for(let [key, value] of entries(reqSearches)) {
-	//   url += `&search%5B${key}=${value}`;
-	// }
+	for(let [key, value] of entries(reqSearches)) {
+	  url += `&search%5B${key}=${value}`;
+	}
 
 	for(let [key, value] of entries(reqFilters)) {
-	  url += `&filter%5B%5D={key}=${value}`;
+	  url += `&filter%5B%5D=${value}`;
 	}
 
 	return url;
@@ -65,21 +65,3 @@ describe('Listings API', function() {
 
 
 // Request URL:https://api.blinker.com/api/v3/listings/search?filter%5B%5D=blue&filter%5B%5D=luxury-car&filter%5B%5D=toyota&page=1&
-// per_page=29&
-// search%5Blatitude%5D=39.752441&
-// search%5Blongitude%5D=-104.999831&
-// search%5Bzipcode%5D=80202&
-// search%5BisZipcodeValid%5D=true&
-// search%5Bdistance%5D=50&
-// search%5Blabel_max_mileage%5D=110000&
-// search%5Bmax_mileage%5D=110000&
-// search%5Bmin_mileage%5D=40000&
-// search%5Blabel_min_mileage%5D=40000&
-// search%5Blabel_min_year%5D=2008&
-// search%5Blabel_max_year%5D=2014&
-// search%5Bmin_year%5D=2008&
-// search%5Bmax_year%5D=2014&
-// search%5Blabel_max_price%5D=30000&
-// search%5Bmax_price%5D=30000&
-// search%5Blabel_min_price%5D=10000&
-// search%5Bmin_price%5D=10000
