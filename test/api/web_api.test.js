@@ -6,7 +6,7 @@ chai.should();
 const assert = chai.assert;
 
 const generateTestCases = require('./test_cases').generateTestCases;
-const defaultCases = 20; //this many cases will be run
+const defaultCases = 100; //this many cases will be run
 
 const baseUrl = 'https://api.blinker.com/api/v3';
 
@@ -40,21 +40,42 @@ function createListingsUrl(testCase) {
 
 const validationFuncs = {
 	// TODO: add evaluation functions for location search params
-	zipcode: (testValue, result) => true,
-	distance: (testValue, result) => true,
-	latitude: (testValue, result) => true,
-	longitude: (testValue, result) => true,
-	isZipcodeValid: (testValue, result) => true,
+	zipcode: { assertion: (testValue, result) => true, err_msg: () => "This should not fail" },
+	distance: { assertion: (testValue, result) => true, err_msg: () => "This should not fail" },
+	latitude: { assertion: (testValue, result) => true, err_msg: () => "This should not fail" },
+	longitude: { assertion: (testValue, result) => true, err_msg: () => "This should not fail" },
+	isZipcodeValid: { assertion: (testValue, result) => true, err_msg: () => "This should not fail" },
 
-	max_mileage: (testValue, result) => testValue >= result.miles,
-	min_mileage: (testValue, result) => testValue <= result.miles,
-	max_year: (testValue, result) => testValue >= parseInt(result.headline.substring(0,4)),
-	min_year: (testValue, result) => testValue <= parseInt(result.headline.substring(0,4)),
-	max_price: (testValue, result) => testValue >= result.asking_price,
-	min_price: (testValue, result) => testValue <= result.asking_price,
+	max_mileage: {
+		assertion: (testValue, result) => testValue >= result.miles,
+		err_msg: (testValue, result) => `max_mileage was exceeded: \n searchParam: ${testValue}\n resultValue: ${result.miles}`
+	},
+	min_mileage: {
+		assertion: (testValue, result) => testValue <= result.miles,
+		err_msg: (testValue, result) => `result was less than min_mileage: \n searchParam: ${testValue}\n resultValue: ${result.miles}`
+	},
+	max_year: {
+		assertion: (testValue, result) => testValue >= parseInt(result.headline.substring(0,4)),
+		err_msg: (testValue, result) => `max_year was exceeded: \n searchParam: ${testValue}\n resultValue: ${parseInt(result.headline.substring(0,4))}`
+	},
+	min_year: {
+		assertion: (testValue, result) => testValue <= parseInt(result.headline.substring(0,4)),
+		err_msg: (testValue, result) => `result was less than min_year: \n searchParam: ${testValue}\n resultValue: ${parseInt(result.headline.substring(0,4))}`
+	},
+	max_price: {
+		assertion: (testValue, result) => testValue >= result.asking_price,
+		err_msg: (testValue, result) => `max_price was exceeded: \n searchParam: ${testValue}\n resultValue: ${result.asking_price}`
+	},
+	min_price: {
+		assertion: (testValue, result) => testValue <= result.asking_price,
+		err_msg: (testValue, result) => `result was less than min_price: \n searchParam: ${testValue}\n resultValue: ${result.asking_price}`
+	},
 
 	// FILTER EVALUATION FUNCTIONS
-	make: (testValue, result) => result.headline.toLowerCase().replace(/-/g, ' ').includes(testValue.replace(/-/g, ' '))
+	make: {
+		assertion: (testValue, result) => result.headline.toLowerCase().replace(/-/g, ' ').includes(testValue.replace(/-/g, ' ')),
+		err_msg: (testValue, result) => `Make was wrong: \n searchParam: ${testValue}\n resultValue: ${result.headline}`
+	}
 }
 
 
@@ -62,23 +83,24 @@ describe('Listings API', function() {
 
 	generateTestCases(defaultCases).forEach((testCase, i) => {
 		this.timeout(5000); // increase default timeout length
-		it(`should filter #${i+1}`, function(done) {
+		const testUrl = createListingsUrl(testCase);
+		it(`should filter request: \n ${testUrl}`, function(done) {
 			request(baseUrl)
-				.get(createListingsUrl(testCase))
+				.get(testUrl)
 	      .expect(200)
 	      .expect('Content-Type', 'application/json; charset=utf-8')
 	      .end(function(err, res) {
 	        if (err) return done(err);
-	        console.log(testCase);
+	        // console.log(testCase);
 	        assert.isBelow(res.body.results.length, defaultSearchParams.per_page+1);
 	        for(let [searchParam, value] of entries(testCase.searches)) {
   	      	res.body.results.forEach((result, i) => {
-  	      		assert.equal(validationFuncs[searchParam](value, result), true);
+  	      		assert(validationFuncs[searchParam].assertion(value, result), validationFuncs[searchParam].err_msg(value, result));
   	      	})
 	        }
 	        for(let [filterParam, value] of entries(testCase.filters)) {
   	      	res.body.results.forEach((result, i) => {
-		        	assert.equal(validationFuncs[filterParam](value, result), true);
+		        	assert(validationFuncs[filterParam].assertion(value, result), validationFuncs[filterParam].err_msg(value, result));
   	      	})
 	        }
 	        done();
