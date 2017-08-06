@@ -16,9 +16,9 @@ describe('Blinker Home Page', function() {
 	beforeEach(function() {
 	})
 
-  it('should submit the form correctly', function(done) {
+  it('should submit the notification form correctly', function(done) {
   	let EC = protractor.ExpectedConditions
-  	browser.get('https://www.blinker.com/');
+  	Homepage.get();
   	$$('input[name="EMAIL"]').sendKeys(generateTestEmail());
   	$$('input[name="STATE"]').sendKeys('CO');
   	$$('input[value="SIGN UP"]').click();
@@ -27,11 +27,7 @@ describe('Blinker Home Page', function() {
 		done();
   });
 
-  // it('should be able to submit the notification form', function() {
-		// homepage.submitForm({
-		// 	email: 'mblasiusnyc@gmail.com',
-		// 	state: 'CO'
-		// });
-		// expect(Homepage.signUpSuccessMsg.getText()).to.equal('Thanks! Please check your email inbox to confirm.');
-  // })
+  it('should allow user to receive a download link', function() {
+
+  })
 });

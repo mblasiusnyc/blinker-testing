@@ -1,11 +1,11 @@
 class Homepage {
 	constructor() {
 		// page elements
-		this.navBar = $$('*');
+		// this.navBar = $$('*');
 		this.playVideoButton = $$('.play_button');
-		this.signUpEmailInput = $$('input [name="EMAIL"]');
-		this.signUpStateInput = $$('input [name="STATE"]');
-		this.signUpSubmitButton = $$('input [value="SIGNUP"]');
+		this.signUpEmailInput = $$('input[name="EMAIL"]');
+		this.signUpStateInput = $$('input[name="STATE"]');
+		this.signUpSubmitButton = $$('input[value="SIGN UP"]');
 		this.downloadTodayButton = $$('.download-sms');
 
 		this.signUpSuccessMsg = $$('.mc4wp-success');
@@ -18,13 +18,12 @@ class Homepage {
 	isLoaded() {
 		let EC = protractor.ExpectedConditions;
 
-		return browser.wait(EC.and(
-			EC.visibilityOf(this.navBar)
-			// EC.visibilityOf(this.playVideoButton),
-			// EC.visibilityOf(this.signUpEmailInput),
-			// EC.visibilityOf(this.signUpStateInput),
-			// EC.visibilityOf(this.downloadTodayButton)
-		), 5000, "homepage did not load");
+		return EC.and(
+			EC.visibilityOf(this.playVideoButton),
+			EC.visibilityOf(this.signUpEmailInput),
+			EC.visibilityOf(this.signUpStateInput),
+			EC.visibilityOf(this.downloadTodayButton)
+		);
 	}
 
 	submitForm(data) {
