@@ -8,26 +8,39 @@ chai.use(chaiAsPromised);
 var expect = chai.expect;
 chai.should();
 
+const EC = protractor.ExpectedConditions;
+
 function generateTestEmail() {
 	return Math.random().toString(36).replace(/[^a-z]+/g, '')+"@blinkerqa.com"
 }
 
+function generateTestPhone() {
+	return '303555'+ Math.floor(Math.random()*10000);
+}
+
 describe('Blinker Home Page', function() {
 	beforeEach(function() {
+  	Homepage.get();
+  	browser.sleep(3000);
 	})
 
   it('should submit the notification form correctly', function(done) {
-  	let EC = protractor.ExpectedConditions
-  	Homepage.get();
-  	$$('input[name="EMAIL"]').sendKeys(generateTestEmail());
-  	$$('input[name="STATE"]').sendKeys('CO');
-  	$$('input[value="SIGN UP"]').click();
+  	Homepage.submitNotificationForm({
+  		email: generateTestEmail(),
+  		state: 'CO'
+  	})
   	browser.sleep(3000);
-  	$$('.mc4wp-success p').first().getText().should.eventually.equal('Thanks! Please check your email inbox to confirm.')
+  	Homepage.signUpSuccessMsg.getText().should.eventually.equal('Thanks! Please check your email inbox to confirm.')
 		done();
   });
 
-  it('should allow user to receive a download link', function() {
-
+  it('should allow user to send themself a download link', function() {
+  	browser.wait(EC.visibilityOf(Homepage.downloadTodayButton), 5000);
+  	Homepage.downloadTodayButton.click();
+  	browser.sleep(1000)
+  	Homepage.phoneInput.sendKeys(generateTestPhone());
+  	Homepage.sendLinkButton.click();
+  	browser.sleep(1000)
+  	Homepage.linkSentConfirmationMsg.getText().should.eventually.equal('Download link sent!')
   })
 });

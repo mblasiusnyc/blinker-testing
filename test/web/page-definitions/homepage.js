@@ -6,9 +6,14 @@ class Homepage {
 		this.signUpEmailInput = $$('input[name="EMAIL"]');
 		this.signUpStateInput = $$('input[name="STATE"]');
 		this.signUpSubmitButton = $$('input[value="SIGN UP"]');
-		this.downloadTodayButton = $$('.download-sms');
 
-		this.signUpSuccessMsg = $$('.mc4wp-success');
+		// App Download Link
+		this.downloadTodayButton = $$('.download-sms').first();
+		this.phoneInput = $$('#phone').first();
+		this.sendLinkButton = $$('input[value="Send"]').first();
+		this.linkSentConfirmationMsg = $$('.wpb_wrapper h2').last();
+
+		this.signUpSuccessMsg = $$('.mc4wp-success p').first();
 	}
 
 	get() {
@@ -26,12 +31,11 @@ class Homepage {
 		);
 	}
 
-	submitForm(data) {
+	submitNotificationForm(data) {
 		this.signUpEmailInput.sendKeys(data.email);
 		this.signUpStateInput.sendKeys(data.state);
 		this.signUpSubmitButton.click();
-
 	}
 }
 
-module.exports = Homepage;
+module.exports = new Homepage();
