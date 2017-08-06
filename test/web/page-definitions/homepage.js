@@ -1,19 +1,19 @@
 class Homepage {
 	constructor() {
 		// page elements
-		// this.navBar = $$('*');
-		this.playVideoButton = $$('.play_button');
+		this.playVideoButton = $$('.play_button').first();
+
+		// Sign up for updates
 		this.signUpEmailInput = $$('input[name="EMAIL"]');
 		this.signUpStateInput = $$('input[name="STATE"]');
 		this.signUpSubmitButton = $$('input[value="SIGN UP"]');
+		this.signUpSuccessMsg = $$('.mc4wp-success p').first();
 
 		// App Download Link
 		this.downloadTodayButton = $$('.download-sms').first();
 		this.phoneInput = $$('#phone').first();
 		this.sendLinkButton = $$('input[value="Send"]').first();
 		this.linkSentConfirmationMsg = $$('.wpb_wrapper h2').last();
-
-		this.signUpSuccessMsg = $$('.mc4wp-success p').first();
 	}
 
 	get() {

@@ -21,7 +21,7 @@ function generateTestPhone() {
 describe('Blinker Home Page', function() {
 	beforeEach(function() {
   	Homepage.get();
-  	browser.sleep(3000);
+  	browser.sleep(2000);
 	})
 
   it('should submit the notification form correctly', function(done) {
@@ -29,18 +29,18 @@ describe('Blinker Home Page', function() {
   		email: generateTestEmail(),
   		state: 'CO'
   	})
-  	browser.sleep(3000);
+  	browser.wait(EC.visibilityOf(Homepage.signUpSuccessMsg), 5000);
   	Homepage.signUpSuccessMsg.getText().should.eventually.equal('Thanks! Please check your email inbox to confirm.')
 		done();
   });
 
   it('should allow user to send themself a download link', function() {
-  	browser.wait(EC.visibilityOf(Homepage.downloadTodayButton), 5000);
+  	browser.wait(EC.visibilityOf(Homepage.downloadTodayButton), 2000);
   	Homepage.downloadTodayButton.click();
-  	browser.sleep(1000)
+  	browser.wait(EC.visibilityOf(Homepage.phoneInput), 5000);
   	Homepage.phoneInput.sendKeys(generateTestPhone());
   	Homepage.sendLinkButton.click();
-  	browser.sleep(1000)
+  	browser.wait(EC.invisibilityOf(Homepage.phoneInput), 5000);
   	Homepage.linkSentConfirmationMsg.getText().should.eventually.equal('Download link sent!')
   })
 });
