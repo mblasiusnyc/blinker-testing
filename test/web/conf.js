@@ -6,6 +6,7 @@ exports.config = {
   capabilities: {
     browserName: 'chrome'
   },
+  directConnect: true,
   onPrepare: function () {
 		browser.waitForAngularEnabled(false);
     browser.ignoreSynchronization = true;

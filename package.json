@@ -7,7 +7,8 @@
     "test": "test"
   },
   "scripts": {
-    "test-api": "mocha ./test/api/web_api.test.js"
+    "test-api": "mocha ./test/api/web_api.test.js",
+    "test-web": "protractor ./test/web/conf.js"
   },
   "author": "",
   "license": "ISC",
