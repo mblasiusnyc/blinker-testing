@@ -1,4 +1,3 @@
-// spec.js
 const Homepage = require('./page-definitions/homepage');
 
 var chai = require('chai');
@@ -25,8 +24,10 @@ describe('Blinker Home Page', function() {
 	})
 
 	it('should allow users to watch the intro video', function(done) {
+  	browser.wait(EC.visibilityOf(Homepage.playVideoButton), 5000);
 		Homepage.playVideoButton.click();
-		EC.visibilityOf(Homepage.introVideo).should.eventually.be(true);
+		browser.wait(EC.presenceOf(Homepage.introVideo), 5000, "Video failed to load");
+		done();
 	})
 
   it('should submit the notification form correctly', function(done) {

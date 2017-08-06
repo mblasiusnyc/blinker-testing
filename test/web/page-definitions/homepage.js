@@ -2,7 +2,7 @@ class Homepage {
 	constructor() {
 		// Intro Video
 		this.playVideoButton = $$('.play_button').first();
-		this.introVideo = $$('video[src="blob:https://www.youtube.com/1894a63e-9a20-49a2-bbd3-725cdca41a66"]');
+		this.introVideo = $$('#pp_full_res');
 
 		// Sign up for updates
 		this.signUpEmailInput = $$('input[name="EMAIL"]');
