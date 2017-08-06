@@ -24,6 +24,11 @@ describe('Blinker Home Page', function() {
   	browser.sleep(2000);
 	})
 
+	it('should allow users to watch the intro video', function(done) {
+		Homepage.playVideoButton.click();
+		EC.visibilityOf(Homepage.introVideo).should.eventually.be(true);
+	})
+
   it('should submit the notification form correctly', function(done) {
   	Homepage.submitNotificationForm({
   		email: generateTestEmail(),
@@ -42,5 +47,7 @@ describe('Blinker Home Page', function() {
   	Homepage.sendLinkButton.click();
   	browser.wait(EC.invisibilityOf(Homepage.phoneInput), 5000);
   	Homepage.linkSentConfirmationMsg.getText().should.eventually.equal('Download link sent!')
-  })
+  });
+
+
 });
