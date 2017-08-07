@@ -1,9 +1,6 @@
-const filters = {
-	color: ['beige','black','blue','brown','burgundy','charcoal','gold','gray','green','off White','orange','purple','red','silver','tan','turquoise','white','yellow'],
-	make: ['acura','alfa-romeo','audi','bmw','buick','cadillac','chevrolet','chrysler','dodge','fiat','ford','gmc','honda','hummer','hyundai','infiniti','jaguar','jeep','kia','land-rover','lexus','lincoln','maserati','mazda','mercedes-benz','mercury','mini','mitsubishi','nissan','oldsmobile','pontiac','porsche','ram','saturn','scion','subaru','suzuki','tesla','toyota','volkswagen','volvo'],
-	style: ['2-door-mid-size-passenger-car','full-size-car','full-size-van','large-crossover-suv','large-luxury-crossover-suv','luxury-car','mid-size-car','minivan','pickup','small-car','small-crossover-suv','small-luxury-crossover-suv','sporty-car','two-seater-passenger-car']
-}
-
+const filters = require('./test_data.js').filters;
+const searches = require('./test_data.js').searches;
+const distances = require('./test_data.js').distances;
 const filterMap = ['color', 'make', 'style'];
 
 function randomizeFilters() {
@@ -20,11 +17,6 @@ function randomizeFilters() {
 	})
 	return testFilters;
 }
-
-const searches = ['zipcode','distance','max_mileage','min_mileage','min_year','max_year','max_price','min_price'];
-// TODO: Add these back when suitable searchFunctions can be added for each search
-// 'latitude','longitude','isZipcodeValid','label_max_mileage','label_min_mileage','label_min_year','label_max_year','label_max_price','label_min_price'
-const distances = [25,50,75,100,200,300,500];
 
 searchFunctions = {
 	zipcode: () => '80202',
@@ -56,30 +48,19 @@ function randomizeSearches() {
 		testSearches.isZipcodeValid = true;
 	}
 
-	if(testSearches.max_mileage && testSearches.min_mileage) {
-		let maxMileage = Math.max(testSearches.max_mileage, testSearches.min_mileage);
-		let minMileage = Math.min(testSearches.max_mileage, testSearches.min_mileage);
-		testSearches.min_mileage = minMileage;
-		testSearches.max_mileage = maxMileage;
+	// Swap min and maxes if both exist and max is higher than min
+	if(testSearches.max_mileage && testSearches.min_mileage && testSearches.min_mileage > testSearches.max_mileage) {
+		testSearches.min_mileage = [testSearches.max_mileage, testSearches.max_mileage = testSearches.min_mileage][0];
 	}
-
-	if(testSearches.max_price && testSearches.min_price) {
-		let maxPrice = Math.max(testSearches.max_price, testSearches.min_price);
-		let minPrice = Math.min(testSearches.max_price, testSearches.min_price);
-		testSearches.min_price = minPrice;
-		testSearches.max_price = maxPrice;
+	if(testSearches.max_price && testSearches.min_price && testSearches.min_price > testSearches.max_price) {
+		testSearches.min_price = [testSearches.max_price, testSearches.max_price = testSearches.min_price][0];
 	}
-
-	if(testSearches.max_year && testSearches.min_year) {
-		let maxYear = Math.max(testSearches.max_year, testSearches.min_year);
-		let minYear = Math.min(testSearches.max_year, testSearches.min_year);
-		testSearches.min_year = minYear;
-		testSearches.max_year = maxYear;
+	if(testSearches.max_year && testSearches.min_year && testSearches.min_year > testSearches.max_year) {
+		testSearches.min_year = [testSearches.max_year, testSearches.max_year = testSearches.min_year][0];
 	}
 
 	return testSearches;
 }
-
 
 function generateTestCases(num) {
 	let testCases = [];
