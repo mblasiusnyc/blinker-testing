@@ -4,6 +4,7 @@ Automated tests for Blinker App
 ## Setup
 1. Clone this repo by running 'git clone https://github.com/mblasiusnyc/blinker-testing.git'
 2. Run 'npm install'
+3. Run 'npm install -g protractor' (Only needed for Web e2e's)
 
 
 ## Running the tests
